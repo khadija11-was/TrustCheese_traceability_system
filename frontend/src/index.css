@@ -31,6 +31,12 @@
 
 /* --- REGLAGES GLOBAUX DE L'APPLICATION --- */
 
+html {
+  scroll-behavior: smooth;
+  /* Décale le défilement pour ne pas cacher le haut des sections sous la Navbar fixe */
+  scroll-padding-top: 90px; 
+}
+
 :root {
   font-family: var(--font-sans);
   color-scheme: light;

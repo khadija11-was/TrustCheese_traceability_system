@@ -12,62 +12,85 @@ const features = [
 export default function HexagonFeatures() {
   const [active, setActive] = useState(1);
 
+  // Séparation des données : 3 sur la première ligne, 2 sur la deuxième
+  const topFeatures = features.slice(0, 3);
+  const bottomFeatures = features.slice(3, 5);
+
+  const renderHexagon = (feature, index) => {
+    const Icon = feature.icon;
+    const isActive = active === index;
+
+    return (
+      <div
+        key={feature.title}
+        onClick={() => setActive(index)}
+        className={`relative p-[3px] transition-all duration-300 cursor-pointer [clip-path:polygon(25%_0%,75%_0%,100%_50%,75%_100%,25%_100%,0%_50%)] ${
+          isActive
+            ? 'bg-gradient-to-r from-[#F2994A] via-[#F2C94C] to-[#F2994A] scale-105 shadow-xl drop-shadow-[0_10px_20px_rgba(242,201,76,0.3)]'
+            : 'bg-transparent hover:scale-102'
+        }`}
+      >
+        <button
+          type="button"
+          className={`group relative h-full w-full min-h-[300px] sm:min-h-[320px] p-6 text-center transition-all duration-300 flex flex-col items-center justify-between [clip-path:polygon(25%_0%,75%_0%,100%_50%,75%_100%,25%_100%,0%_50%)] ${
+            isActive
+              ? 'bg-white text-[#0F2027]'
+              : 'bg-gradient-to-br from-[#142850] to-[#0F2027] text-white hover:brightness-110'
+          }`}
+        >
+          {/* Icône en haut */}
+          <div className="mt-4">
+            <Icon className={isActive ? 'text-[#F2994A]' : 'text-[#F2C94C]'} size={34} />
+          </div>
+
+          {/* Contenu Texte au centre */}
+          <div className="my-auto px-2">
+            <span className="block text-base font-black leading-snug">{feature.title}</span>
+            <span className={`mt-2 block text-xs leading-relaxed ${isActive ? 'text-slate-600 font-medium' : 'text-slate-300'}`}>
+              {isActive ? feature.detail : feature.summary}
+            </span>
+          </div>
+
+          {/* Flèche d'action en bas */}
+          <div className="mb-3">
+            <ArrowUpRight
+              className={`transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 ${
+                isActive ? 'text-[#F2994A]' : 'text-[#F2C94C]'
+              }`}
+              size={22}
+            />
+          </div>
+        </button>
+      </div>
+    );
+  };
+
   return (
-      <section id="approche" className="bg-[#F8F9FA] px-5 py-24 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-2xl">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#F2994A]">
-              Une approche sans angle mort
-            </p>
-            <h2 className="mt-3 text-4xl font-black tracking-tight text-[#0F2027] sm:text-5xl">
-              La confiance se construit à chaque étape.
-            </h2>
-          </div>
-
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              const isActive = active === index;
-
-              return (
-                  <button
-                      type="button"
-                      key={feature.title}
-                      onClick={() => setActive(isActive ? -1 : index)}
-                      onMouseEnter={() => setActive(index)}
-                      className={`group relative min-h-[320px] overflow-hidden p-8 text-center transition-all duration-300 flex flex-col items-center justify-between [clip-path:polygon(25%_0%,75%_0%,100%_50%,75%_100%,25%_100%,0%_50%)] ${
-                          isActive
-                              ? 'bg-white text-[#1A1A1A] shadow-2xl scale-105'
-                              : 'bg-gradient-to-br from-[#142850] to-[#0F2027] text-white hover:opacity-95'
-                      }`}
-                  >
-                    {/* Icône en haut */}
-                    <div className="mt-4">
-                      <Icon className={isActive ? 'text-[#F2994A]' : 'text-[#F2C94C]'} size={32} />
-                    </div>
-
-                    {/* Contenu Texte au centre */}
-                    <div className="my-auto px-2">
-                      <span className="block text-base font-black leading-snug">{feature.title}</span>
-                      <span className={`mt-2 block text-xs leading-relaxed ${isActive ? 'text-slate-600' : 'text-slate-300'}`}>
-                    {isActive ? feature.detail : feature.summary}
-                  </span>
-                    </div>
-
-                    {/* Flèche d'action en bas */}
-                    <div className="mb-2">
-                      <ArrowUpRight
-                          className={`transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 ${
-                              isActive ? 'text-[#F2994A]' : 'text-[#F2C94C]'
-                          }`}
-                          size={20}
-                      />
-                    </div>
-                  </button>
-              );
-            })}
-          </div>
+    <section id="approche" className="bg-[#F8F9FA] px-5 py-24 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <div className="text-center md:text-left max-w-2xl">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#F2994A]">
+            Une approche sans angle mort
+          </p>
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-[#0F2027] sm:text-4xl lg:text-5xl">
+            La confiance se construit à chaque étape.
+          </h2>
         </div>
-      </section>
+
+        {/* Grille Hexagonale : Première Ligne (3 Hexagones) */}
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 items-center justify-center">
+          {topFeatures.map((feature, idx) => renderHexagon(feature, idx))}
+        </div>
+
+        {/* Grille Hexagonale : Deuxième Ligne (2 Hexagones centrés) */}
+        <div className="mt-6 flex flex-col sm:flex-row justify-center gap-6 items-center">
+          {bottomFeatures.map((feature, idx) => (
+            <div key={feature.title} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
+              {renderHexagon(feature, idx + 3)}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

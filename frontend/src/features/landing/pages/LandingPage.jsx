@@ -6,5 +6,15 @@ import ManufacturingCycle from '../components/ManufacturingCycle';
 import MetricsAndFooter from '../components/MetricsAndFooter';
 
 export default function LandingPage() {
-  return <div className="min-h-screen bg-[#F8F9FA] font-sans"><Navbar /><main><HeroSection /><HexagonFeatures /><ManufacturingCycle /><MetricsAndFooter /></main></div>;
+  return (
+    <div className="min-h-screen bg-[#F8F9FA] font-sans antialiased selection:bg-[#F2994A] selection:text-[#0F2027]">
+      <Navbar />
+      <main>
+        <HeroSection />
+        <HexagonFeatures />
+        <ManufacturingCycle />
+        <MetricsAndFooter />
+      </main>
+    </div>
+  );
 }

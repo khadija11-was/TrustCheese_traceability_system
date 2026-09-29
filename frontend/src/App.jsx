@@ -20,6 +20,7 @@ import LandingPage from '@/features/landing/pages/LandingPage';
 import LivraisonPage from '@/features/delivery/pages/LivraisonPage';
 import TraceabilityPage from '@/features/traceability/pages/TraceabilityPage';
 import DashboardPage from '@/features/dashboard/pages/DashboardPage';
+import PublicTraceabilityPage from '@/features/traceability/pages/PublicTraceabilityPage';
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
           {/* 1. Route Publique : Sans AppLayout (Plein écran) */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/traceabilite/:numeroLot" element={<PublicTraceabilityPage />} />
 
           {/* 2. Routes Protégées : Encapsulées dans AppLayout (avec Sidebar) */}
           <Route element={<ProtectedRoute />}>

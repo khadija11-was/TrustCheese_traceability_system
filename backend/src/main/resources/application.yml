@@ -21,6 +21,9 @@ spring:
         format_sql: true
 
 app:
+  super-admin:
+    email: ${SUPER_ADMIN_EMAIL}
+    password: ${SUPER_ADMIN_PASSWORD}
   upload:
     products-dir: ./uploads/products
 

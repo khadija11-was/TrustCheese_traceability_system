@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import ma.trustCheese.TrustCheesebackend.entity.Utilisateur;
 import ma.trustCheese.TrustCheesebackend.enums.Role;
 import ma.trustCheese.TrustCheesebackend.repository.UtilisateurRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -16,20 +17,26 @@ public class SuperAdminInitializer implements CommandLineRunner {
     private final UtilisateurRepository utilisateurRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Value("${app.super-admin.email}")
+    String adminemail ;
+
+    @Value("${app.super-admin.password}")
+    private String adminPassword;
+
     @Override
     public void run(String... args) {
 
-        String email = "superadmin@trustcheese.ma";
+
 
         // On ne crée pas le compte s'il existe déjà
-        if (utilisateurRepository.existsByEmail(email)) {
+        if (utilisateurRepository.existsByEmail(adminemail)) {
             return;
         }
 
         Utilisateur superAdmin = Utilisateur.builder()
                 .nom("admin")
-                .email(email)
-                .motDePasse(passwordEncoder.encode("Admin@1234"))
+                .email(adminemail)
+                .motDePasse(passwordEncoder.encode(adminPassword))
                 .role(Role.ADMINISTRATEUR)
                 .actif(true)
                 .build();
@@ -38,8 +45,6 @@ public class SuperAdminInitializer implements CommandLineRunner {
 
         System.out.println("==========================================");
         System.out.println(" Super Admin créé avec succès");
-        System.out.println(" Email : " + email);
-        System.out.println(" Mot de passe : Admin@1234");
         System.out.println("==========================================");
     }
 }

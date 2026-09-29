@@ -31,7 +31,7 @@ export default function LoginPage() {
 
     try {
       await login(credentials);
-      navigate('/admin/utilisateurs');
+      navigate('/dashboard');
     } catch (err) {
       console.error('Login error:', err);
       setError(

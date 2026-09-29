@@ -23,3 +23,5 @@ spring:
 app:
   upload:
     products-dir: ./uploads/products
+
+  public-base-url:  http://localhost:5173

@@ -1,10 +1,10 @@
 package ma.trustCheese.TrustCheesebackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import ma.trustCheese.TrustCheesebackend.dto.TraceabilityResponse;
+import ma.trustCheese.TrustCheesebackend.dto.traceability.TraceabilityResponse;
 import ma.trustCheese.TrustCheesebackend.entity.TraceabilityEvent;
 import ma.trustCheese.TrustCheesebackend.enums.TypeEvenementTraceabilite;
-import ma.trustCheese.TrustCheesebackend.service.TraceabilityEventService;
+import ma.trustCheese.TrustCheesebackend.service.traceability.TraceabilityEventService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,7 @@
-package ma.trustCheese.TrustCheesebackend.service;
+package ma.trustCheese.TrustCheesebackend.service.traceability;
 
 import lombok.RequiredArgsConstructor;
-import ma.trustCheese.TrustCheesebackend.dto.TraceabilityResponse;
+import ma.trustCheese.TrustCheesebackend.dto.traceability.TraceabilityResponse;
 import ma.trustCheese.TrustCheesebackend.entity.*;
 import ma.trustCheese.TrustCheesebackend.enums.TypeEvenementTraceabilite;
 import ma.trustCheese.TrustCheesebackend.repository.LotProduitFiniRepository;

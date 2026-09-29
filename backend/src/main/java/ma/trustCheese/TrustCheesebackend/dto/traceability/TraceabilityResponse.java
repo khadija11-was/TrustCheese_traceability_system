@@ -1,4 +1,4 @@
-package ma.trustCheese.TrustCheesebackend.dto;
+package ma.trustCheese.TrustCheesebackend.dto.traceability;
 
 
 

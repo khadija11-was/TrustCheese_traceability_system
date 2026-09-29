@@ -13,6 +13,7 @@ import ma.trustCheese.TrustCheesebackend.enums.StatutLotProduitFini;
 import ma.trustCheese.TrustCheesebackend.repository.AffinageRepository;
 import ma.trustCheese.TrustCheesebackend.repository.LotProduitFiniRepository;
 import ma.trustCheese.TrustCheesebackend.repository.ProductionRepository;
+import ma.trustCheese.TrustCheesebackend.service.traceability.TraceabilityEventService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

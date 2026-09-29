@@ -9,6 +9,7 @@ import ma.trustCheese.TrustCheesebackend.enums.StatutProduction;
 import ma.trustCheese.TrustCheesebackend.repository.ProductionRepository;
 import ma.trustCheese.TrustCheesebackend.repository.ProduitRepository;
 import ma.trustCheese.TrustCheesebackend.repository.UtilisateurRepository;
+import ma.trustCheese.TrustCheesebackend.service.traceability.TraceabilityEventService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

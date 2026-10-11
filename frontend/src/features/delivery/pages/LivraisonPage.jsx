@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ChevronDown, ChevronRight, MapPin, Package, Plus, Search, Send, X } from 'lucide-react';
+import { ChevronDown, ChevronRight, ExternalLink, MapPin, Plus, Printer, QrCode, Search, Send, X } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 import livraisonService from '@/services/livraisonService';
 import clientService from '@/services/clientService';
 import produitService from '@/services/produitService';
@@ -208,8 +209,55 @@ function CreateForm({ clients, products, form, saving, onChange, onLineChange, o
   );
 }
 
+function LotQrDialog({ lot, onClose }) {
+  if (!lot) return null;
+
+  const publicUrl = `${window.location.origin}/traceabilite/${encodeURIComponent(lot.numeroLot)}`;
+  const printQr = () => {
+    const printWindow = window.open('', '_blank', 'width=480,height=600');
+    const svg = document.querySelector('#delivery-lot-qr svg')?.outerHTML;
+    if (!printWindow || !svg) return;
+
+    const escapedLot = lot.numeroLot.replace(/[&<>"']/g, (character) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    })[character]);
+    printWindow.document.write(`<!doctype html><html><head><title>QR ${escapedLot}</title><style>body{font-family:Arial,sans-serif;text-align:center;padding:32px;color:#111}svg{width:280px;height:280px}.lot{font-family:monospace;font-weight:bold}</style></head><body><h1>Traçabilité du lot</h1>${svg}<p class="lot">${escapedLot}</p><p>Scannez pour consulter la traçabilité publique.</p></body></html>`);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4" role="dialog" aria-modal="true" aria-labelledby="lot-qr-title">
+      <div className="w-full max-w-sm rounded-lg bg-white p-6 text-center shadow-xl">
+        <div className="flex items-start justify-between">
+          <div className="text-left">
+            <h2 id="lot-qr-title" className="text-lg font-bold text-slate-900">QR code du lot</h2>
+            <p className="mt-1 font-mono text-sm text-slate-500">{lot.numeroLot}</p>
+          </div>
+          <button type="button" onClick={onClose} aria-label="Fermer" className="text-slate-400 hover:text-slate-700">
+            <X size={20} />
+          </button>
+        </div>
+        <div id="delivery-lot-qr" className="mx-auto my-5 w-fit border border-slate-200 bg-white p-3">
+          <QRCodeSVG value={publicUrl} size={240} level="M" includeMargin />
+        </div>
+        <div className="flex flex-col gap-2">
+          <a href={publicUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+            <ExternalLink size={16} /> Consulter la traçabilité
+          </a>
+          <button type="button" onClick={printQr} className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700">
+            <Printer size={16} /> Imprimer le QR code
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function DeliveryDetail({ item, onAction }) {
   const [openLine, setOpenLine] = useState(null);
+  const [qrLot, setQrLot] = useState(null);
 
   if (!item) {
     return (
@@ -274,13 +322,22 @@ function DeliveryDetail({ item, onAction }) {
 
               {openLine === line.id && (
                 <div className="border-t border-slate-100 bg-slate-50 p-3">
-                  {(line.lots || []).map((lot) => (
-                    <div key={lot.id} className="flex items-center justify-between border-b border-slate-200 py-2 text-xs last:border-0">
-                      <span className="font-mono font-semibold">{lot.numeroLot}</span>
-                      <span>{lot.dateExpiration || '-'}</span>
-                      <span className="rounded-full bg-white px-2 py-1">{lot.statut}</span>
-                    </div>
-                  ))}
+                  {line.lots?.length ? (
+                    line.lots.map((lot) => (
+                      <div key={lot.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 py-2 text-xs last:border-0">
+                        <span className="font-mono font-semibold">{lot.numeroLot}</span>
+                        <span>{lot.dateExpiration || '-'}</span>
+                        <span className="rounded-full bg-white px-2 py-1">{lot.statut}</span>
+                        <button type="button" onClick={() => setQrLot(lot)} aria-label={`Consulter et imprimer le QR code du lot ${lot.numeroLot}`} title="Consulter et imprimer le QR code" className="inline-flex items-center gap-1 rounded-md border border-blue-200 px-2 py-1 font-semibold text-blue-700 hover:bg-blue-50">
+                          <QrCode size={14} /> QR code
+                        </button>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="py-2 text-xs text-slate-500">
+                      Les lots seront attribués lors de la préparation de la livraison.
+                    </p>
+                  )}
                 </div>
               )}
             </div>
@@ -310,6 +367,7 @@ function DeliveryDetail({ item, onAction }) {
           </button>
         )}
       </div>
+      <LotQrDialog lot={qrLot} onClose={() => setQrLot(null)} />
     </div>
   );
 }

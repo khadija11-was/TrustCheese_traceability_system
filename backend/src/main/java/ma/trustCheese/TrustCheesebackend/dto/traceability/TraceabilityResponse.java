@@ -3,8 +3,7 @@ package ma.trustCheese.TrustCheesebackend.dto.traceability;
 
 
 import lombok.*;
-import tools.jackson.databind.JsonNode;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

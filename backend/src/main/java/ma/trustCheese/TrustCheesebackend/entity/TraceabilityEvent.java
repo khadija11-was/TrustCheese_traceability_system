@@ -7,7 +7,7 @@ import lombok.*;
 import ma.trustCheese.TrustCheesebackend.enums.TypeEvenementTraceabilite;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import tools.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.time.LocalDateTime;
 

@@ -734,6 +734,7 @@ public class LivraisonService {
                 .quantiteLots(
                         ligne.getQuantiteLots()
                 )
+                .lots(lots)
 
                 .build();
     }

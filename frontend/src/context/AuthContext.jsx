@@ -38,9 +38,11 @@ export const AuthProvider = ({ children }) => {
   const logout = useCallback(async () => {
     try {
       await authApi.logout();
+    } catch (error) {
+      console.error('La requête de déconnexion a échoué.', error);
     } finally {
       setUser(null);
-      window.location.href = '/login';
+      window.location.href = '/';
     }
   }, []);
 
